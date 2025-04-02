@@ -16,9 +16,20 @@ const NewsletterSection = () => {
     setError(null);
     
     try {
-      // Since we're removing Firebase, we'll simulate a successful subscription
-      // In a real app, you'd integrate with your preferred email service here
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network request
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe to newsletter');
+      }
+      
       setSubmitted(true);
       
       setTimeout(() => {
@@ -42,7 +53,7 @@ const NewsletterSection = () => {
             <div className="md:w-1/2 relative">
               <div className="relative w-full h-full min-h-[400px]">
                 <Image 
-                  src="/images/newsletter.jpg" 
+                  src="/newsletter.jpg" 
                   alt="Indian Cultural Heritage" 
                   fill
                   className="object-cover"
@@ -162,3 +173,8 @@ const NewsletterSection = () => {
 };
 
 export default NewsletterSection;
+
+
+
+
+ 

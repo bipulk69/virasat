@@ -1,5 +1,7 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { 
   Instagram, 
   Facebook, 
@@ -14,8 +16,44 @@ import {
 
 import Navigation from '@/components/Navigation';
 import NewsletterSection from '@/components/NewsletterSection';
+import FooterEmailForm from '@/components/FooterEmailForm';
+import ProductModal from '@/components/ProductModal';
+
+// Product data
+const products = [
+  {
+    id: 'jal-netri',
+    name: 'Jal Netri',
+    image: '/jalneti.jpg',
+    description: 'Traditional water vessel crafted by skilled artisans. The Jal Netri is designed according to ancient principles for storing and purifying water. It has been a staple in Indian households for centuries, known for its ability to naturally cool water and enhance its taste and quality.'
+  },
+  {
+    id: 'shankh',
+    name: 'Shankh',
+    image: '/sankh.jpg',
+    description: 'Sacred conch shell used in rituals and ceremonies. The Shankh holds great significance in Hindu rituals and is used for various ceremonial purposes. Its unique sound is believed to eliminate negative energies and create an auspicious atmosphere.'
+  },
+  {
+    id: 'mudgar',
+    name: 'Mudgar',
+    image: '/mudgar.jpg',
+    description: 'Traditional fitness mace used in ancient Indian exercise. The Mudgar has been a part of Indian physical training for thousands of years. This weight training tool helps build strength, endurance, and joint stability through traditional exercise movements.'
+  }
+];
 
 export default function HomePage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(products[0]);
+
+  // Function to handle "Learn More" clicks for products
+  const handleLearnMore = (productId: string) => {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      setSelectedProduct(product);
+      setModalOpen(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white overflow-y-hidden">
       {/* Navigation */}
@@ -39,7 +77,10 @@ export default function HomePage() {
           <div className="text-white max-w-2xl">
             <h1 className="text-5xl font-bold mb-6">Discover India's Rich Cultural Heritage</h1>
             <p className="text-xl mb-8">Experience traditions that have stood the test of time, reimagined for the modern world.</p>
-            <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors flex items-center">
+            <button 
+              onClick={() => document.getElementById('bridging')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors flex items-center"
+            >
               Explore Heritage
               <ChevronRight className="ml-2 h-5 w-5" />
             </button>
@@ -104,7 +145,7 @@ export default function HomePage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
               <div className="p-4 flex justify-center">
                 <Image
-                  src="/images/jalneti.jpg"
+                  src="/jalneti.jpg"
                   alt="Jal Netri"
                   width={150}
                   height={150}
@@ -114,7 +155,10 @@ export default function HomePage() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">Jal Netri</h3>
                 <p className="text-gray-600 mb-4">Traditional water vessel crafted by skilled artisans.</p>
-                <button className="text-orange-600 font-semibold flex items-center hover:text-orange-700">
+                <button 
+                  onClick={() => handleLearnMore('jal-netri')}
+                  className="text-orange-600 font-semibold flex items-center hover:text-orange-700"
+                >
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </button>
@@ -123,7 +167,7 @@ export default function HomePage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
               <div className="p-4 flex justify-center">
                 <Image
-                  src="/images/sankh.jpg"
+                  src="/sankh.jpg"
                   alt="Shankh"
                   width={150}
                   height={150}
@@ -133,7 +177,10 @@ export default function HomePage() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2 mt-14">Shankh</h3>
                 <p className="text-gray-600 mb-4">Sacred conch shell used in rituals and ceremonies.</p>
-                <button className="text-orange-600 font-semibold flex items-center hover:text-orange-700">
+                <button 
+                  onClick={() => handleLearnMore('shankh')}
+                  className="text-orange-600 font-semibold flex items-center hover:text-orange-700"
+                >
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </button>
@@ -142,7 +189,7 @@ export default function HomePage() {
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
               <div className="p-4 flex justify-center">
                 <Image
-                  src="/images/mudgar.jpg"
+                  src="/mudgar.jpg"
                   alt="Mudgar"
                   width={150}
                   height={150}
@@ -152,7 +199,10 @@ export default function HomePage() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">Mudgar</h3>
                 <p className="text-gray-600 mb-4">Traditional fitness mace used in ancient Indian exercise.</p>
-                <button className="text-orange-600 font-semibold flex items-center hover:text-orange-700">
+                <button 
+                  onClick={() => handleLearnMore('mudgar')}
+                  className="text-orange-600 font-semibold flex items-center hover:text-orange-700"
+                >
                   Learn More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </button>
@@ -172,30 +222,26 @@ export default function HomePage() {
             <div>
               <div className="relative h-[250px] w-[250px] mt-4">
                 <Image 
-                  src="/images/logo1.jpg" 
+                  src="/logo1.png" 
                   alt="logo" 
                   fill
                   className="object-contain"
                 />
               </div>
               <div className="flex space-x-4 mt-4">
-                <Instagram className="h-6 w-6 text-gray-400 hover:text-white cursor-pointer" />
-                <Facebook className="h-6 w-6 text-gray-400 hover:text-white cursor-pointer" />
-                <Twitter className="h-6 w-6 text-gray-400 hover:text-white cursor-pointer" />
+                <a href="https://www.instagram.com/thevirasatindia/" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="h-6 w-6 text-gray-400 hover:text-white cursor-pointer" />
+                </a>
+                <a href="https://www.facebook.com/thevirasatindia" target="_blank" rel="noopener noreferrer">
+                  <Facebook className="h-6 w-6 text-gray-400 hover:text-white cursor-pointer" />
+                </a>
+                <a href="https://x.com/officialvirasat" target="_blank" rel="noopener noreferrer">
+                  <Twitter className="h-6 w-6 text-gray-400 hover:text-white cursor-pointer" />
+                </a>
               </div>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Stay Updated</h4>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="px-4 py-2 rounded-l-md w-full text-gray-900"
-                />
-                <button className="bg-orange-600 hover:bg-orange-700 px-6 rounded-r-md flex items-center">
-                  <Mail className="h-5 w-5" />
-                </button>
-              </div>
+              <FooterEmailForm />
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
@@ -203,6 +249,15 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* Product Modal */}
+      <ProductModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        productName={selectedProduct.name}
+        productDescription={selectedProduct.description}
+        productImage={selectedProduct.image}
+      />
     </div>
   );
 }
