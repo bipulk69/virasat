@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://thevirasat.com
+
+# Sitemaps
+Sitemap: https://thevirasat.com/sitemap.xml
